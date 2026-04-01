@@ -17,57 +17,21 @@ ll mulMOD(ll a, ll b);
 ll divMOD(ll a, ll b);
 ll logba(ll a, ll b);
 
-const int MOD = 1e9 + 7;
+const int MOD = 10007;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
-vvl graph(MAX_ARRAY_SIZE);
-vb vis(MAX_ARRAY_SIZE);
-
-class compare {
-    public:
-    bool operator() (pair<int,int> a, pair<int,int> b) {
-        return a.first > b.first;
-    }
-};
-
-struct dsu {
-    int n;
-    vector<int> parent;
-    vector<int> sz;
-
-    dsu(int n) : n(n), parent(n+1), sz(n+1, 1)
-    {
-        for (int i = 1; i <= n; ++i)
-            parent[i] = i;
-    }
-
-    int rep(int x)
-    {
-        return parent[x] == x ? x : parent[x] = rep(parent[x]);
-    }
-
-    void join(int x, int y)
-    {
-        x = rep(x);
-        y = rep(y);
-
-        if (sz[x] < sz[y])
-            swap(x, y);
-
-        parent[y] = x;
-        sz[x] += sz[y];
-    }
-
-    bool check(int x, int y)
-    {
-        return rep(x) == rep(y);
-    }
-};
 
 void solve()
 {
+    cin >> k >> m;
+    vector<pair<ll,ll>> v;
+    for (ll i = 0; i < k; ++i)
+    {
+        ll c,l;
+        cin >> c >> l;
+        v.push_back({c, l});
+    }
 }
 
 int main()
