@@ -111,8 +111,45 @@ ll t,n,m,k,x,y,z,u,v;
 ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
 
+void dfs(ll u, ll p, vl &sz, vvl &graph)
+{
+    sz[u] = 1;
+    for (ll v : graph[u])
+    {
+        if (v == p)
+            continue;
+
+        dfs(v, u, sz, graph);
+        sz[u] += sz[v];
+    }
+}
+
 void solve()
 {
+    cin >> n;
+    vvl graph(n+1);
+    for (ll i = 0; i < n-1; ++i)
+    {
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    if (n & 1)
+    {
+        cout << "-1\n";
+        return;
+    }
+
+    vl size(n+1, 0);
+    dfs(1, -1, size, graph);
+
+    ll ans = 0;
+    for (ll i = 2; i <= n; ++i)
+        if (!(size[i] & 1))
+            ++ans;
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -121,11 +158,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

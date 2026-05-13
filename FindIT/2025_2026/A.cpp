@@ -108,11 +108,48 @@ ll logba(ll a, ll b)
 }
 
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+ll a[MAX_ARRAY_SIZE];
 string s;
 
 void solve()
 {
+    ll q;
+    cin >> n >> q;
+    for (ll i = 1; i <= q; ++i)
+        cin >> a[i];
+
+    for (ll i = 0; i < n; ++i)
+    {
+        char code;
+        cin >> code;
+
+        ll l,r,x,k;
+        if (code == '?')
+        {
+            cin >> l >> k;
+            ll ans = -1;
+            for (ll j = l; j <= q; ++j)
+            {
+                if (a[j] & (1ll << k))
+                    ans = j;
+                else
+                    break;
+            }
+
+            cout << ans << '\n';
+        }
+        else 
+        {
+            cin >> l >> r >> x;
+            for (ll j = l; j <= r; ++j)
+            {
+                if (code == '^')
+                    a[j] ^= x;
+                else
+                    a[j] &= x;
+            }
+        }
+    }
 }
 
 int main()
@@ -121,11 +158,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

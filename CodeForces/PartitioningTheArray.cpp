@@ -113,6 +113,33 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+
+    vl factor;
+    for (ll i = 1; i * i <= n; ++i)
+    {
+        if (n % i == 0)
+        {
+            factor.push_back(i);
+            if (i != n/i)
+                factor.push_back(n/i);
+        }
+    }
+
+    ll ans = 0;
+    for (ll f : factor)
+    {
+        ll count = 0;
+        for (ll i = f; i < n; ++i)
+            count = __gcd(count, abs(a[i] - a[i - f]));
+
+        if (count != 1)
+            ++ans;
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -120,8 +147,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-
-    freopen("input.txt", "r", stdin);
 
     cin >> t;
     while (t--)

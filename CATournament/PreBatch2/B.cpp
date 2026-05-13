@@ -19,7 +19,9 @@ const int MAX_ARRAY_SIZE = 1e6 + 1;
 
 class compare {
     public:
-    bool operator() (pair<int,int> a, pair<int,int> b) {
+    bool operator() (pair<ll,ll> a, pair<ll,ll> b) {
+        if (a.first == b.first)
+            return a.second > b.second;
         return a.first > b.first;
     }
 };
@@ -113,6 +115,17 @@ string s;
 
 void solve()
 {
+    cin >> n >> t;
+    vector<pair<ll,ll>> p;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> a[i] >> b[i];
+        p.push_back({b[i], a[i]});
+    }
+
+    sort(p.begin(), p.end());
+    for (ll i = 0; i < n; ++i)
+        cout << p[i].first << ' ' << p[i].second << '\n';
 }
 
 int main()
@@ -121,11 +134,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

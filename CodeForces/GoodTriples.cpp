@@ -109,10 +109,17 @@ ll logba(ll a, ll b)
 
 ll t,n,m,k,x,y,z,u,v;
 ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+vl ways(10,0);
 string s;
 
 void solve()
 {
+    cin >> s;
+    ll ans = 1;
+    for (char c : s)
+        ans *= ways[c - '0'];
+
+    cout << ans << endl;
 }
 
 int main()
@@ -121,7 +128,17 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
+    for (ll i = 0; i <= 9; ++i)
+    {
+        for (ll j = 0; j <= 9; ++j)
+        {
+            for (ll k = 0; k <= 9; ++k)
+            {
+                if (i + j + k < 10)
+                    ways[i + j + k]++;
+            }
+        }
+    }
 
     cin >> t;
     while (t--)

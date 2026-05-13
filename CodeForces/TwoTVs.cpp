@@ -113,6 +113,28 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    vector<pair<ll,ll>> segment;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> x >> y;
+        segment.push_back({x,1});
+        segment.push_back({y+1,-1});
+    }
+
+    sort(segment.begin(), segment.end());
+    ll cnt = 0;
+    for (auto [s, d] : segment)
+    {
+        cnt += d;
+        if (cnt > 2)
+        {
+            cout << "NO\n";
+            return;
+        }
+    }
+
+    cout << "YES\n";
 }
 
 int main()
@@ -121,11 +143,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

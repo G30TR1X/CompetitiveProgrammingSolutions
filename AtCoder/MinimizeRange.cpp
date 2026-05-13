@@ -1,7 +1,4 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
 using namespace std;
 
 #define ll long long
@@ -12,10 +9,21 @@ using namespace std;
 #define vb vector<bool>
 #define vvl vector<vector<ll>>
 #define vvb vector<vector<bool>>
-#define ordered_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+
+ll powMOD(ll a, ll b);
+ll addMOD(ll a, ll b);
+ll subMOD(ll a, ll b);
+ll mulMOD(ll a, ll b);
+ll divMOD(ll a, ll b);
+ll logba(ll a, ll b);
 
 const int MOD = 1e9 + 7;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+vvl graph(MAX_ARRAY_SIZE);
+vb vis(MAX_ARRAY_SIZE);
 
 class compare {
     public:
@@ -57,6 +65,25 @@ struct dsu {
         return rep(x) == rep(y);
     }
 };
+
+void solve()
+{
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input.txt", "r", stdin);
+
+    cin >> t;
+    while (t--)
+        solve();
+
+    return 0;
+}
 
 ll powMOD(ll a, ll b)
 {
@@ -107,25 +134,3 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
-ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
-string s;
-
-void solve()
-{
-}
-
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
-
-    return 0;
-}

@@ -16,6 +16,9 @@ using namespace std;
 
 const int MOD = 1e9 + 7;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
 
 class compare {
     public:
@@ -107,12 +110,49 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
-ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
-string s;
-
 void solve()
 {
+    cin >> n;
+    vector<pair<ll,ll>> edges;
+    vvl graph(n+1);
+    for (ll i = 0; i < n-1; ++i)
+    {
+        cin >> u >> v;
+        edges.push_back({u,v});
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    vector<pair<ll,ll>> p;
+    for (ll i = 1; i <= n; ++i)
+        p.push_back({graph[i].size(), i});
+
+    sort(p.rbegin(), p.rend());
+
+    vb vis(n+1, false);
+    ll mex = 0;
+    map<pair<ll,ll>, ll> mp;
+    for (ll i = 0; i < p.size(); ++i)
+    {
+        auto [sz, node] = p[i];
+        for (ll v : graph[node])
+        {
+            if (vis[v])
+                continue;
+
+            mp[{node, v}] = mex;
+            mp[{v, node}] = mex;
+            mex++;
+        }
+
+        vis[node] = true;
+    }
+
+    for (ll i = 0; i < n-1; ++i)
+    {
+        auto [u, v] = edges[i];
+        cout << mp[{u, v}] << '\n';
+    }
 }
 
 int main()
@@ -121,11 +161,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

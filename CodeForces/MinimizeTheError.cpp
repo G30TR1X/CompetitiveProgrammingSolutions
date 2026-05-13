@@ -113,6 +113,44 @@ string s;
 
 void solve()
 {
+    ll k1,k2;
+    cin >> n >> k1 >> k2;
+    priority_queue<ll> diff;
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> b[i];
+
+        if (a[i] - b[i] != 0)
+            diff.push(abs(a[i] - b[i]));
+    }
+
+    ll ans = 0, k = k1 + k2;
+    while (!diff.empty() && k > 0)
+    {
+        ll curr = diff.top();
+        diff.pop();
+        --k, --curr;
+
+        if (curr != 0)
+            diff.push(curr);
+    }
+
+    if (k > 0)
+        ans += k & 1;
+    else
+    {
+        while (!diff.empty())
+        {
+            ll curr = diff.top();
+            diff.pop();
+            ans += curr * curr;
+        }
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -121,11 +159,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

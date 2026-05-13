@@ -19,7 +19,9 @@ const int MAX_ARRAY_SIZE = 1e6 + 1;
 
 class compare {
     public:
-    bool operator() (pair<int,int> a, pair<int,int> b) {
+    bool operator() (pair<ll,ll> a, pair<ll,ll> b) {
+        if (a.first == b.first)
+            return a.second > b.second;
         return a.first > b.first;
     }
 };
@@ -108,11 +110,51 @@ ll logba(ll a, ll b)
 }
 
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+ll b[MAX_ARRAY_SIZE];
 string s;
 
 void solve()
 {
+    ll l;
+    cin >> n >> l;
+    for (ll i = 1; i <= n; ++i)
+        cin >> b[i];
+
+    vector<pair<ll,ll>> libur;
+    for (ll i = 0; i < l; ++i)
+    {
+        cin >> x >> y;
+        libur.push_back({y, x});
+    }
+
+    sort(libur.begin(), libur.end());
+    ll m = libur.size();
+    for (ll i = 0; i < m; ++i)
+    {
+        ll m1 = libur[i].first, m2 = libur[(i+1) % m].first;
+        ll d1 = libur[i].second, d2 = libur[(i+1) % m].second;
+        if (m1 == m2)
+        {
+            if (abs(d1 - d2) == 2)
+            {
+                cout << "YA\n";
+                return;
+            }
+        }
+        else
+        {
+            if (abs(m1 - m2) == 1)
+            {
+                if (abs(d1 - (d2 + b[m1])) == 2)
+                {
+                    cout << "YA\n";
+                    return;
+                }
+            }
+        }
+    }
+
+    cout << "TIDAK\n";
 }
 
 int main()
@@ -121,11 +163,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

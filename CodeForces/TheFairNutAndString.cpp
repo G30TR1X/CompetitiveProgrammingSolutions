@@ -108,11 +108,23 @@ ll logba(ll a, ll b)
 }
 
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
 
 void solve()
 {
+    cin >> s;
+    ll ans = 0, curr = 0, past = 1, n = s.size();
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] == 'a')
+            curr++;
+        else if (s[i] == 'b')
+            past = mulMOD(past, curr+1), curr = 0;
+    }
+    past = mulMOD(past, curr+1);
+    ans = (past - 1 + MOD) % MOD;
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -121,11 +133,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

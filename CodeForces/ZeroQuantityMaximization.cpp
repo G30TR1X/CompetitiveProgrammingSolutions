@@ -113,6 +113,39 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+    for (ll i = 0; i < n; ++i)
+        cin >> b[i];
+
+    map<pair<ll,ll>,ll> mp;
+    ll zero = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        if (a[i] == 0)
+        {
+            if (b[i] == 0)
+                ++zero;
+            continue;
+        }
+
+        ll p = -b[i], q = a[i];
+        ll g = __gcd(abs(p), abs(q));
+        p /= g;
+        q /= g;
+
+        if (q < 0)
+            p = -p, q = -q;
+
+        mp[{p,q}]++;
+    }
+
+    ll mx = 0;
+    for (auto x : mp)
+        mx = max(mx, x.second);
+
+    cout << mx + zero << '\n';
 }
 
 int main()
@@ -121,11 +154,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

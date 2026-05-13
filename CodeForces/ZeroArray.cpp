@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <numeric>
 using namespace __gnu_pbds;
 using namespace std;
 
@@ -108,11 +109,22 @@ ll logba(ll a, ll b)
 }
 
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
 
 void solve()
 {
+    cin >> n;
+    vl a(n);
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+
+    ll sum = accumulate(a.begin(), a.end(), 0ll);
+    ll mx = *max_element(a.begin(), a.end());
+
+    if (sum & 1 || mx > sum - mx)
+        cout << "NO\n";
+    else
+        cout << "YES\n";
 }
 
 int main()
@@ -121,11 +133,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

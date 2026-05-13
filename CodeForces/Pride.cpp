@@ -113,6 +113,58 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    ll cnt = 0, gcd = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> a[i];
+        gcd = __gcd(gcd, a[i]);
+        if (a[i] == 1)
+            cnt++;
+    }
+
+    if (cnt)
+    {
+        cout << n-cnt << '\n';
+        return;
+    }
+
+    if (gcd != 1)
+    {
+        cout << "-1\n";
+        return;
+    }
+
+    ll smallest = a[0];
+    for (ll j = 1; j < n; ++j)
+    {
+        smallest = min(smallest, __gcd(a[j], a[j-1]));
+        if (smallest == 1)
+        {
+            cout << n << '\n';
+            return;
+        }
+    }
+
+
+    ll curr = a[0], i = 0;
+    for (; i < n; ++i)
+    {
+        curr = __gcd(curr, a[i]);
+        if (curr == 1)
+            break;
+    }
+
+    ll len = 1;
+    curr = a[i];
+    for (; i >= 0; --i, ++len)
+    {
+        curr = __gcd(curr, a[i]);
+        if (curr == 1)
+            break;
+    }
+
+    cout << n-1 + len-1 << '\n';
 }
 
 int main()
@@ -121,11 +173,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

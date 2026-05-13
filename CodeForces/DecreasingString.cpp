@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <queue>
 using namespace __gnu_pbds;
 using namespace std;
 
@@ -109,10 +110,36 @@ ll logba(ll a, ll b)
 
 ll t,n,m,k,x,y,z,u,v;
 ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
-string s;
+string s, ans = "";
 
 void solve()
 {
+    cin >> s >> k;
+    ll n = s.size();
+
+    string stk;
+    stk.reserve(s.size());
+
+    for (char c : s)
+    {
+        while (!stk.empty() && stk.back() > c && k > n)
+        {
+            stk.pop_back();
+            k -= n;
+            --n;
+        }
+
+        stk.push_back(c);
+    }
+
+    while (k > n)
+    {
+        stk.pop_back();
+        k -= n;
+        --n;
+    }
+
+    ans += stk[k-1];
 }
 
 int main()
@@ -121,11 +148,11 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
     cin >> t;
     while (t--)
         solve();
+
+    cout << ans << '\n';
 
     return 0;
 }

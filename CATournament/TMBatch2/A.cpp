@@ -113,6 +113,8 @@ string s;
 
 void solve()
 {
+    cin >> x >> y;
+    cout << x + y << '\n';
 }
 
 int main()
@@ -121,11 +123,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

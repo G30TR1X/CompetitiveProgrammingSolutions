@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -111,8 +112,46 @@ ll t,n,m,k,x,y,z,u,v;
 ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
 
+bool check(ll x)
+{
+    for (ll i = 0; i < n; ++i)
+    {
+        ll cost = 0;
+        for (ll j = i, y = x; j < n; ++j, --y)
+        {
+            if (y <= a[j])
+                break;
+
+            if (j == n-1)
+                cost += 1e9;
+            else
+                cost += y - a[j];
+        }
+
+        if (cost <= k)
+            return true;
+    }
+
+    return false;
+}
+
 void solve()
 {
+    cin >> n >> k;
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+
+    ll l = *max_element(a, a + n), r = l + n, ans = l;
+    while (l <= r)
+    {
+        ll mid = l + (r - l) / 2;
+        if (check(mid))
+            l = mid + 1, ans = mid;
+        else
+            r = mid - 1;
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -120,8 +159,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-
-    freopen("input.txt", "r", stdin);
 
     cin >> t;
     while (t--)

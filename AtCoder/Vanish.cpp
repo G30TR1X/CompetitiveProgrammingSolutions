@@ -1,7 +1,4 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
 using namespace std;
 
 #define ll long long
@@ -12,7 +9,13 @@ using namespace std;
 #define vb vector<bool>
 #define vvl vector<vector<ll>>
 #define vvb vector<vector<bool>>
-#define ordered_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+
+ll powMOD(ll a, ll b);
+ll addMOD(ll a, ll b);
+ll subMOD(ll a, ll b);
+ll mulMOD(ll a, ll b);
+ll divMOD(ll a, ll b);
+ll logba(ll a, ll b);
 
 const int MOD = 1e9 + 7;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
@@ -107,12 +110,35 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
-ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+ll t,n,m,k,x,y,z,u,v,a,b,c;
 string s;
+vvl graph(MAX_ARRAY_SIZE);
+vb vis(MAX_ARRAY_SIZE);
 
 void solve()
 {
+    cin >> n >> k;
+    map<ll,ll> mp;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> x;
+        mp[x] += x;
+    }
+
+    vl v;
+    for (auto it : mp)
+        v.push_back(it.second);
+
+    sort(v.begin(), v.end(), greater<ll>());
+    n = v.size();
+    ll i = 0;
+    while (i < n && i < k) i++;
+
+    ll sum = 0;
+    for (; i < n; ++i)
+        sum += v[i];
+
+    cout << sum << '\n';
 }
 
 int main()
@@ -121,11 +147,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

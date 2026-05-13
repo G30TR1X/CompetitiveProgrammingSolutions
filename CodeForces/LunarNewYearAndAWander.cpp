@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <queue>
 using namespace __gnu_pbds;
 using namespace std;
 
@@ -113,6 +114,38 @@ string s;
 
 void solve()
 {
+    cin >> n >> m;
+    vvl graph(n+1);
+    for (ll i = 0; i < m; ++i)
+    {
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    vl ans;
+    vb visited(n+1, false);
+    priority_queue<ll, vector<ll>, greater<ll>> pq;
+    pq.push(1);
+    visited[1] = true;
+    while (!pq.empty())
+    {
+        ll u = pq.top();
+        pq.pop();
+        ans.push_back(u);
+        for (ll v : graph[u])
+        {
+            if (!visited[v])
+            {
+                visited[v] = true;
+                pq.push(v);
+            }
+        }
+    }
+
+    for (ll a : ans)
+        cout << a << ' ';
+    cout << '\n';
 }
 
 int main()
@@ -121,11 +154,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

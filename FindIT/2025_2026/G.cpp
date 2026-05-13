@@ -113,6 +113,14 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    ll tinggi = powMOD(2, n);
+    ll ans = (tinggi*(tinggi-1) / 2) % MOD;
+    ll triangle = 1;
+    for (ll i = 2; i < tinggi; i += i)
+        triangle = addMOD(addMOD(triangle, addMOD(triangle, triangle)), mulMOD(i,i));
+
+    cout << addMOD(ans, triangle)<< '\n';
 }
 
 int main()
@@ -121,11 +129,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

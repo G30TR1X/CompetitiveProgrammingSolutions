@@ -19,11 +19,6 @@ ll logba(ll a, ll b);
 
 const int MOD = 1e9 + 7;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
-ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
-string s;
-vvl graph(MAX_ARRAY_SIZE);
-vb vis(MAX_ARRAY_SIZE);
 
 class compare {
     public:
@@ -65,25 +60,6 @@ struct dsu {
         return rep(x) == rep(y);
     }
 };
-
-void solve()
-{
-}
-
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
-
-    return 0;
-}
 
 ll powMOD(ll a, ll b)
 {
@@ -134,3 +110,26 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v,a,b,c;
+string s;
+vvl graph(MAX_ARRAY_SIZE);
+vb vis(MAX_ARRAY_SIZE);
+
+void solve()
+{
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input.txt", "r", stdin);
+
+    cin >> t;
+    while (t--)
+        solve();
+
+    return 0;
+}

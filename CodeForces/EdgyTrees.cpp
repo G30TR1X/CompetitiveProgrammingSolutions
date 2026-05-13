@@ -113,6 +113,50 @@ string s;
 
 void solve()
 {
+    cin >> n >> k;
+    vector<vector<pair<ll,ll>>> graph(n+1);
+    for (ll i = 0; i < n-1; ++i)
+    {
+        cin >> u >> v >> x;
+        if (x == 1)
+            continue;
+
+        graph[u].push_back({v,x});
+        graph[v].push_back({u,x});
+    }
+
+    ll ans = powMOD(n, k);
+    vb vis(n+1, false);
+
+    for (ll i = 1; i <= n; ++i)
+    {
+        if (vis[i])
+            continue;
+
+        queue<pair<int,int>> q;
+        q.push({i,0});
+        vis[i] = true;
+        ll traverse = 0;
+        while (!q.empty())
+        {
+            auto [u, d] = q.front();
+            q.pop();
+            ++traverse;
+            for (auto [v, c] : graph[u])
+            {
+                if (vis[v])
+                    continue;
+
+                q.push({v, c});
+                vis[v] = true;
+            }
+
+        }
+
+        ans = subMOD(ans, powMOD(traverse, k));
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -121,11 +165,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

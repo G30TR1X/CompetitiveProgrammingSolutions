@@ -19,8 +19,11 @@ const int MAX_ARRAY_SIZE = 1e6 + 1;
 
 class compare {
     public:
-    bool operator() (pair<int,int> a, pair<int,int> b) {
-        return a.first > b.first;
+    bool operator() (pair<pair<ll,ll>,ll> a, pair<pair<ll,ll>,ll> b) {
+        if (a.first.first == b.first.first)
+            return a.first.second > b.first.second;
+
+        return a.first.first < b.first.first;
     }
 };
 
@@ -113,6 +116,35 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    vector<pair<pair<ll,ll>,ll>> v;
+    for (ll i = 0; i < n; ++i)
+    {
+        ll l,r;
+        cin >> l >> r;
+        v.push_back({{l,r}, i+1});
+    }
+
+    if (n == 1)
+    {
+        cout << "-1 -1\n";
+        return;
+    }
+
+    sort(v.begin(), v.end(), compare());
+    pair<pair<ll,ll>,ll> curr = v[0];
+    for (ll i = 1; i < n; ++i)
+    {
+        if (curr.first.first == v[i].first.first || (curr.first.first <= v[i].first.first && v[i].first.second <= curr.first.second))
+        {
+            cout << v[i].second << ' ' << curr.second << '\n';
+            return;
+        }
+        else if (curr.first.first != v[i].first.first)
+            curr = v[i];
+    }
+
+    cout << "-1 -1\n";
 }
 
 int main()
@@ -121,11 +153,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

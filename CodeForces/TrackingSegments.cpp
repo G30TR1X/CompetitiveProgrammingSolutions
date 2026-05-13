@@ -108,11 +108,50 @@ ll logba(ll a, ll b)
 }
 
 ll t,n,m,k,x,y,z,u,v;
-ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
 string s;
 
 void solve()
 {
+    cin >> n >> m;
+    vector<pair<ll,ll>> segments(m);
+    for (ll i = 0; i < m; ++i)
+        cin >> segments[i].first >> segments[i].second;
+
+    ll q;
+    cin >> q;
+    vl queries(q+1);
+    for (ll i = 1; i <= q; ++i)
+        cin >> queries[i];
+
+    ll l = 1, r = q, ans = -1;
+    while (l <= r)
+    {
+        ll mid = l + (r - l) / 2;
+        vl a(n+1, 0);
+        for (ll i = 1; i <= mid; ++i)
+            a[queries[i]] = 1;
+
+        for (ll i = 2; i <= n; ++i)
+            a[i] += a[i-1];
+
+        bool found = false;
+        for (ll i = 0; i < m; ++i)
+        {
+            ll left = segments[i].first, right = segments[i].second, len = right - left + 1;
+            if (a[right] - (left > 0 ? a[left-1] : 0) > (right - left + 1) / 2)
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if (found)
+            ans = mid, r = mid - 1;
+        else
+            l = mid + 1;
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -120,8 +159,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-
-    freopen("input.txt", "r", stdin);
 
     cin >> t;
     while (t--)

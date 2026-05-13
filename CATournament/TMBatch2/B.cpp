@@ -113,6 +113,17 @@ string s;
 
 void solve()
 {
+    cin >> n;
+    ll mx = 0, mn = INT_MAX, sum = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> a[i];
+        mx = max(mx, a[i]);
+        mn = min(mn, a[i]);
+        sum += a[i];
+    }
+
+    cout << sum + mx + mn << '\n';
 }
 
 int main()
@@ -121,11 +132,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }

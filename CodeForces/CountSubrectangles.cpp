@@ -113,6 +113,59 @@ string s;
 
 void solve()
 {
+    cin >> n >> m >> k;
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+    for (ll i = 0; i < m; ++i)
+        cin >> b[i];
+
+    vl fa(n+1,0), fb(m+1,0);
+    ll len = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        if (a[i] == 1)
+        {
+            ++len;
+            fa[len]++;
+        }
+        else
+            len = 0;
+    }
+
+    len = 0;
+    for (ll i = 0; i < m; ++i)
+    {
+        if (b[i] == 1)
+        {
+            ++len;
+            fb[len]++;
+        }
+        else
+            len = 0;
+    }
+
+    for (ll i = n-1; i > 0; --i)
+        fa[i] += fa[i+1];
+
+    for (ll i = m-1; i > 0; --i)
+        fb[i] += fb[i+1];
+
+    ll ans = 0;
+    for (ll i = 1; i * i <= k; ++i)
+    {
+        if (k % i == 0)
+        {
+            ll j = k/i;
+
+            if (i <= n && j <= m)
+                ans += fa[i]*fb[j];
+
+            if (i != j && j <= n && i <= m)
+                ans += fa[j] * fb[i];
+        }
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -121,11 +174,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    cin >> t;
-    while (t--)
-        solve();
+    solve();
 
     return 0;
 }
