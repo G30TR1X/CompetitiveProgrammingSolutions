@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,63 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+
+void dfs(ll curr, vector<set<ll>> &graph, vl &color, bool &bipartite, ll currColor)
+{
+    color[curr] = currColor;
+    for (ll i : graph[curr])
+    {
+        if (color[i] != -1)
+        {
+            if (color[i] == currColor)
+                bipartite = false;
+
+            continue;
+        }
+
+        dfs(i, graph, color, bipartite, currColor ^ 1);
+    }
+}
+
 void solve()
 {
+    cin >> n;
+    vector<set<ll>> graph(n+1);
+    map<ll,ll> mp;
+    bool notPossible = false;
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> u >> v;
+        graph[u].insert(v);
+        graph[v].insert(u);
+
+        mp[u]++;
+        mp[v]++;
+
+        if (mp[u] > 2 || mp[v] > 2 || (u == v))
+            notPossible = true;
+    }
+
+    if (notPossible)
+    {
+        cout << "NO\n";
+        return;
+    }
+
+    bool bipartite = true;
+    vl color(n+1, -1);
+    for (ll i = 1; i <= n; ++i)
+    {
+        if (color[i] != -1)
+            continue;
+
+        dfs(i, graph, color, bipartite, 0);
+    }
+
+    cout << (bipartite ? "YES\n" : "NO\n");
 }
 
 int main()
@@ -117,12 +172,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <unordered_map>
 using namespace __gnu_pbds;
 using namespace std;
 
@@ -107,8 +108,28 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
 void solve()
 {
+    cin >> n >> s;
+
+    unordered_map<ll, ll> mp;
+    mp[0]++;
+
+    ll pref = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        pref += s[i] - '0';
+        mp[pref - (i + 1)]++;
+    }
+
+    ll ans = 0;
+    for (auto [key, cnt] : mp)
+        ans += cnt * (cnt - 1) / 2;
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,12 +138,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

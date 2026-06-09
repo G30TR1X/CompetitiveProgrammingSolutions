@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,46 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+
 void solve()
 {
+    cin >> n >> k;
+
+    ll dp[n][k][2];
+    for (ll i = 0; i < n; ++i)
+        dp[i][0][0] = dp[i][0][1] = 1;
+    
+    for (ll j = 1; j < k; ++j)
+    {
+        for (ll i = n-1; i >= 0; --i)
+        {
+            ll v1 = 1, v2 = 1;
+            if (i-1 >= 0)
+                v1 = dp[i-1][j-1][0];
+
+            if (i+1 < n)
+                v2 = dp[i+1][j][1];
+
+            dp[i][j][1] = addMOD(v1, v2);
+        }
+
+        for (ll i = 0; i < n; ++i)
+        {
+            ll v1 = 1, v2 = 1;
+            if (i-1 >= 0)
+                v1 = dp[i-1][j][0];
+
+            if (i+1 < n)
+                v2 = dp[i+1][j-1][1];
+
+            dp[i][j][0] = addMOD(v1, v2);
+        }
+    }
+
+    cout << dp[0][k-1][1] << '\n';
 }
 
 int main()
@@ -117,12 +155,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

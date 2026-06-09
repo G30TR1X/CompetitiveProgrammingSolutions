@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,44 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+
 void solve()
 {
+    string a,b;
+    cin >> n >> k >> a >> b;
+
+    vl ch(26, -1);
+    vc set;
+    for (ll i = 0; i < n; ++i)
+    {
+        if (ch[a[i]-'a'] == -1)
+        {
+            ch[a[i]-'a'] = set.size();
+            set.push_back(a[i]);
+        }
+    }
+
+    ll ans = 0, uc = set.size(), bc = min(k, uc);
+    for (ll bm = 0; bm < (1 << uc); ++bm)
+    {
+        if (__builtin_popcount(bm) != bc)
+            continue;
+
+        ll cnt = 0, len = 0;
+        for (ll i = 0; i < n; ++i)
+        {
+            if (a[i] == b[i] || (bm & (1 << ch[a[i]-'a'])))
+                ++len;
+            else
+                cnt += len * (len+1) / 2, len = 0;
+        }
+
+        cnt += len * (len+1) / 2;
+        ans = max(ans, cnt);
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,12 +153,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

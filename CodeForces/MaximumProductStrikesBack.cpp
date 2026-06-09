@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,80 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
 void solve()
 {
+    cin >> n;
+    vl a(n);
+    for (ll i = 0; i < n; ++i)
+        cin >> a[i];
+
+    ll mx = 0, ansL = 0, ansR = n, l = 0;
+    while (l < n)
+    {
+        if (a[l] == 0)
+        {
+            ++l;
+            continue;
+        }
+
+        ll two = 0, neg = 0, r = l-1;
+        while (r+1 < n && a[r+1] != 0)
+        {
+            r++;
+            if (abs(a[r]) == 2)
+                two++;
+
+            if (a[r] < 0)
+                neg++;
+        }
+
+        if (!(neg & 1))
+        {
+            if (two > mx)
+            {
+                mx = two;
+                ansL = l;
+                ansR = (n-1)-r;
+            }
+
+            l = r+1;
+            continue;
+        }
+
+        ll subTwo = two, subL = l-1;
+        do {
+            subL++;
+            subTwo -= (abs(a[subL]) == 2);
+        } while (a[subL] > 0);
+
+        if (subTwo > mx)
+        {
+            mx = subTwo;
+            ansL = subL+1;
+            ansR = (n-1)-r;
+        }
+
+        subTwo = two;
+        ll subR = r+1;
+        do {
+            subR--;
+            subTwo -= (abs(a[subR]) == 2);
+        } while (a[subR] > 0);
+
+        if (subTwo > mx)
+        {
+            mx = subTwo;
+            ansL = l;
+            ansR = n-subR;
+        }
+
+        l = r+1;
+    }
+
+    cout << ansL << ' ' << ansR << '\n';
 }
 
 int main()
@@ -117,12 +189,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

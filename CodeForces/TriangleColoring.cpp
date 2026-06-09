@@ -14,7 +14,7 @@ using namespace std;
 #define vvb vector<vector<bool>>
 #define ordered_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
 
-const int MOD = 1e9 + 7;
+const int MOD = 998'244'353;
 const int MAX_ARRAY_SIZE = 1e6 + 1;
 
 class compare {
@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,40 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+
 void solve()
 {
+    cin >> n;
+    ll ans = 1, T = n/3, K = n/6;
+    for (ll i = 1; i <= K; ++i)
+    {
+        ans = mulMOD(ans, T-i+1);
+        ans = mulMOD(ans, powMOD(i, MOD-2));
+    }
+
+    vl e(3);
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> x;
+        e[i%3] = x;
+
+        if (i % 3 == 2)
+        {
+            sort(e.begin(), e.end());
+            ll m = 1;
+            if (e[0] == e[1])
+                m++;
+            if (e[0] == e[2])
+                m++;
+
+            ans = mulMOD(ans, m);
+        }
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,13 +149,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
-        solve();
+    solve();
 
     return 0;
 }

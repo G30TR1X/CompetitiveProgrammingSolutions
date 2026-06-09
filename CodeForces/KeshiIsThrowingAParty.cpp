@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,39 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
+bool check(ll x, vector<pair<ll,ll>> &person)
+{
+    ll cnt = 0;
+    for (ll i = 0; i < n; ++i)
+    {
+        if (person[i].second >= cnt && person[i].first >= x - cnt - 1)
+            cnt++;
+    }
+
+    return cnt >= x;
+}
+
 void solve()
 {
+    cin >> n;
+    vector<pair<ll,ll>> person(n);
+    for (int i = 0; i < n; ++i)
+        cin >> person[i].first >> person[i].second;
+
+    ll l = 0, r = n, ans = 1;
+    while (l <= r)
+    {
+        ll mid = l + (r - l) / 2;
+        if (check(mid, person))
+            ans = mid, l = mid + 1;
+        else
+            r = mid - 1;
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,12 +148,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

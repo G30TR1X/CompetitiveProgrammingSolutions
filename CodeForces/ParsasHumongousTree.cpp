@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,47 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
+void dfs(ll curr, ll parent, vvl &graph, vvl &dp, vector<pair<ll,ll>> &interval)
+{
+    for (ll u : graph[curr])
+    {
+        if (u != parent)
+        {
+            dfs(u, curr, graph, dp, interval);
+            dp[curr][0] += max(
+                    dp[u][0] + llabs(interval[curr].first - interval[u].first),
+                    dp[u][1] + llabs(interval[curr].first - interval[u].second)
+                    );
+            dp[curr][1] += max(
+                    dp[u][0] + llabs(interval[curr].second - interval[u].first),
+                    dp[u][1] + llabs(interval[curr].second - interval[u].second)
+                    );
+        }
+    }
+}
+
 void solve()
 {
+    cin >> n;
+    vvl dp(n+1, vl(2, 0));
+    vector<pair<ll,ll>> interval(n+1);
+    for (ll i = 1; i <= n; ++i)
+        cin >> interval[i].first >> interval[i].second;
+
+    vvl graph(n+1);
+    for (ll i = 0; i < n-1; ++i)
+    {
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfs(1, -1, graph, dp, interval);
+    
+    cout << max(dp[1][0], dp[1][1]) << '\n';
 }
 
 int main()
@@ -117,12 +156,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

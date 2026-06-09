@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,46 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,m,k,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+
 void solve()
 {
+    ll n,x;
+    cin >> n >> x;
+
+    if (n < x)
+    {
+        cout << "-1\n";
+        return ;
+    }
+
+    if (n == x)
+    {
+        cout << n << '\n';
+        return ;
+    }
+
+    ll subN = n, sum = 0;
+    for (ll i = 61; i >= 0; --i)
+    {
+        while ((subN & (1ll << i)) != 0)
+            sum |= 1ll << i--;
+
+        if (sum == x)
+        {
+            while (i >= 0 && (subN & (1ll << i)) == 0)
+                --i;
+
+            cout << sum + (1ll << ++i) << '\n';
+
+            return;
+        }
+
+    }
+
+    cout << "-1\n";
 }
 
 int main()
@@ -117,12 +155,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,36 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,k,x,y,z,u,v;
+
 void solve()
 {
+    ll n,m;
+    string s;
+    cin >> n >> m >> s;
+    string perm[] = {"abc", "acb", "bac", "bca", "cab", "cba"};
+    map<string, vector<ll>> mp;
+    for (string p : perm)
+        mp[p].assign(n+1, 0);
+
+    for (ll i = 0; i < n; ++i)
+        for (string p : perm)
+            mp[p][i+1] += p[i % 3] != s[i];
+
+    for (string p : perm)
+        for (ll i = 1; i <= n; ++i)
+            mp[p][i] += mp[p][i-1];
+
+    for (ll i = 0; i < m; ++i)
+    {
+        ll l,r;
+        cin >> l >> r;
+
+        ll ans = INT_MAX;
+        for (string p : perm)
+            ans = min(ans, mp[p][r] - mp[p][l-1]);
+        cout << ans << '\n';
+    }
 }
 
 int main()
@@ -117,13 +145,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
-        solve();
+    solve();
 
     return 0;
 }

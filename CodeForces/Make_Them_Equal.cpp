@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,29 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+vl dp(1001, INT_MAX);
+
 void solve()
 {
+    cin >> n >> k;
+    vl b(n), c(n);
+    for (ll i = 0; i < n; ++i)
+    {
+        cin >> b[i];
+        b[i] = dp[b[i]];
+    }
+
+    for (ll i = 0; i < n; ++i)
+        cin >> c[i];
+
+    vl kdp(12 * n + 1, 0);
+    for (ll j = 0; j < n; ++j)
+        for (ll i = 12 * n; i >= b[j]; --i)
+            kdp[i] = max(kdp[i], kdp[i - b[j]] + c[j]);
+
+    cout << kdp[min(k, 12 * n)] << '\n';
 }
 
 int main()
@@ -117,12 +138,19 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
+    dp[1] = 0;
+    for (ll i = 1; i <= 1000; ++i)
+    {
+        for (ll j = 1; j <= i; ++j)
+        {
+            ll val = i + (i / j);
+            if (val <= 1000)
+                dp[val] = min(dp[val], dp[i] + 1);
+        }
+    }
 
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

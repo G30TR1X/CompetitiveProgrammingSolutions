@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,29 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
 void solve()
 {
+    cin >> n >> k >> s;
+    string ans = "";
+    for (ll i = 0; i < k; ++i)
+        ans += 'z';
+
+    for (ll i = 0; i < n; ++i)
+    {
+        string pattern = s.substr(0,i+1);
+        while (pattern.size() < k)
+            pattern += pattern;
+
+        while (pattern.size() > k)
+            pattern.pop_back();
+
+        ans = min(ans, pattern);
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,13 +138,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
-        solve();
+    solve();
 
     return 0;
 }

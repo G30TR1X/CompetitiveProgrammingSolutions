@@ -107,8 +107,67 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
 void solve()
 {
+    cin >> n;
+    vl ans(n, -1);
+    ll l = 1, r = 2;
+    set<ll> seen, seenAns;
+
+    while (r <= n)
+    {
+        seen.insert(l);
+        seen.insert(r);
+        cout << "? " << l << ' ' << r << endl;
+        cin >> x;
+        cout << "? " << r << ' ' << l << endl;
+        cin >> y;
+
+        if (x > y)
+        {
+            ans[l-1] = x;
+            seenAns.insert(x);
+            while (seen.find(l) != seen.end())
+                ++l;
+        }
+        else
+        {
+            ans[r-1] = y;
+            seenAns.insert(y);
+            while (seen.find(r) != seen.end())
+                ++r;
+        }
+
+        if (l > r)
+            swap(l, r);
+    }
+
+    ll missing = -1;
+    for (ll i = 1; i <= n; ++i)
+    {
+        if (seenAns.find(i) == seenAns.end())
+        {
+            missing = i;
+            break;
+        }
+    }
+
+    for (ll i = 0; i < n; ++i)
+    {
+        if (ans[i] == -1)
+        {
+            ans[i] = missing;
+            break;
+        }
+    }
+
+    cout << "! ";
+    for (ll i = 0; i < n; ++i)
+        cout << ans[i] << ' ';
+    cout << endl;
 }
 
 int main()
@@ -117,13 +176,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
-        solve();
+    solve();
 
     return 0;
 }

@@ -20,7 +20,7 @@ const int MAX_ARRAY_SIZE = 1e6 + 1;
 class compare {
     public:
     bool operator() (pair<int,int> a, pair<int,int> b) {
-        return a.first > b.first;
+        return a.second > b.second;
     }
 };
 
@@ -107,8 +107,41 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+vl factorial(1001, 1);
+
 void solve()
 {
+    cin >> n >> k;
+    vector<pair<ll,ll>> follower(1001, {0,0});
+    for (ll i = 0; i < n; ++i)
+    {
+        ll a;
+        cin >> a;
+        follower[a].first++;
+        follower[a].second = a;
+    }   
+
+    ll mx = 0, blogger = 0, ans = 0;
+    for (ll i = 1000; i >= 1; --i)
+    {
+        if (k > 0 && follower[i].first > 0)
+        {
+            ll diff = min(k, follower[i].first);
+            mx += diff * follower[i].second;
+            k -= diff;
+            blogger += diff;
+
+            if (k == 0)
+            {
+                ans = divMOD(factorial[follower[i].first], (mulMOD(factorial[follower[i].first - diff], factorial[diff])));
+                break;
+            }
+        }
+    }
+
+    cout << ans << '\n';
 }
 
 int main()
@@ -117,12 +150,11 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
+    for (ll i = 1; i <= 1000; ++i)
+        factorial[i] = mulMOD(factorial[i-1], i);
 
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

@@ -98,7 +98,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +107,67 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+ll a[MAX_ARRAY_SIZE], b[MAX_ARRAY_SIZE];
+string s;
+
 void solve()
 {
+    cin >> n >> s;
+    vector<pair<ll,char>> freq(26);
+    for (ll i = 0; i < 26; ++i)
+        freq[i].second = 'a' + i;
+
+    for (ll i = 0; i < n; ++i)
+        freq[s[i] - 'a'].first++;
+
+    sort(freq.rbegin(), freq.rend());
+
+    ll changes = n, best_k = 1;
+    for (ll k = 1; k <= 26; ++k)
+    {
+        if (n % k != 0)
+            continue;
+
+        ll unchanged = 0;
+        for (ll i = 0; i < k; ++i)
+            unchanged += min(freq[i].first, n/k);
+
+        if (n - unchanged < changes)
+        {
+            changes = n - unchanged;
+            best_k = k;
+        }
+    }
+
+    map<char,ll> mp;
+    for (ll i = 0; i < best_k; ++i)
+        mp[freq[i].second] = n / best_k;
+
+    string ans(n, ' ');
+    for (ll i = 0; i < n; ++i)
+    {
+        if (mp[s[i]] > 0)
+        {
+            ans[i] = s[i];
+            mp[s[i]]--;
+        }
+    }
+
+    for (ll i = 0; i < n; ++i)
+    {
+        if (ans[i] != ' ')
+            continue;
+
+        while (!mp.empty() && (*mp.begin()).second == 0)
+            mp.erase(mp.begin());
+
+        char ch = (*mp.begin()).first;
+        ans[i] = ch;
+        mp[ch]--;
+    }
+
+    cout << changes << '\n' << ans << '\n';
 }
 
 int main()
@@ -117,12 +176,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

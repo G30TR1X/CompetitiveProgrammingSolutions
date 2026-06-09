@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <iostream>
 using namespace __gnu_pbds;
 using namespace std;
 
@@ -98,7 +100,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +109,37 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,x,y,z,u,v;
+string s;
+
 void solve()
 {
+    cin >> n;
+    ll l = 1, r = n;
+    while (l < r)
+    {
+        ll mid = l + (r - l) / 2;
+
+        cout << "? " << l << ' ' << mid << endl;
+        cout.flush();
+
+        ll cnt = 0;
+        for (ll i = l; i <= mid; ++i)
+        {
+            cin >> x;
+            
+            if (l <= x && x <= mid)
+                ++cnt;
+        }
+
+        if (cnt & 1)
+            r = mid;
+        else
+            l = mid + 1;
+    }
+
+    cout << "! "<< l << endl;
+    cout.flush();
 }
 
 int main()
@@ -117,12 +148,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;

@@ -1,10 +1,12 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+#include <iomanip>
 using namespace __gnu_pbds;
 using namespace std;
 
 #define ll long long
+#define ld long double
 #define ull unsigned long long
 #define vl vector<ll>
 #define vs vector<string>
@@ -98,7 +100,7 @@ ll divMOD(ll a, ll b)
 {
     a %= MOD;
     ll inv_b = powMOD(b, MOD - 2);
-    ll res = (a*inv_b)%MOD;
+    ll res = (a*b)%MOD;
     return res;
 }
 
@@ -107,8 +109,52 @@ ll logba(ll a, ll b)
     return log2(a)/log2(b);
 }
 
+ll t,n,m,k,y,z,u,v;
+string s;
+
+bool check(ld T, vl &x, vl &y, ld &ans)
+{
+    ld L = 0, R = 1000000000;
+    for (ll i = 0; i < n; ++i)
+    {
+        ld reach = max(T - (ld) y[i], (ld) 0);
+        ld left = (ld) x[i] - reach;
+        ld right = (ld) x[i] + reach;
+
+        L = max(L, left);
+        R = min(R, right);
+
+        if (L > R)
+            return false;
+    }
+
+    ans = L + (R - L) / 2;
+    return true;
+}
+
 void solve()
 {
+    cin >> n;
+    vl x(n);
+    for (ll i = 0; i < n; ++i)
+        cin >> x[i];
+
+    vl y(n);
+    for (ll i = 0; i < n; ++i)
+        cin >> y[i];
+
+    ld l = 0, r = 10000000000, ans = 0;
+    for (ll i = 0; i <= 64; ++i)
+    {
+        ld mid = l + (r - l) / 2;
+
+        if (check(mid, x, y, ans))
+            r = mid;
+        else
+            l = mid;
+    }
+
+    cout << setprecision(16) << ans << '\n';
 }
 
 int main()
@@ -117,12 +163,8 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input.txt", "r", stdin);
-
-    ll tc;
-
-    cin >> tc;
-    while (tc--)
+    cin >> t;
+    while (t--)
         solve();
 
     return 0;
